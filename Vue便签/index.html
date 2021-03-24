@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>便签本</title>
+    <style>
+        .clearfix:after{/*伪元素是行内元素 正常浏览器清除       浮动方法*/
+            content: "";
+            display: block;
+            height: 0;
+            clear:both;
+            visibility: hidden;
+        }
+        .clearfix{
+        *zoom: 1;/*ie6清除浮动的方式 *号只有IE6-IE7执行，其他浏览器不执行*/
+        }
+        body{
+            background: rgba(240,240,240);
+        }
+        #app{
+            border: 1px solid #ccc;
+            width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: #ccc 5px 5px 5px 1px;
+        }
+        h2{
+            font-weight: 400;
+            color: gray;
+            font-size: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-bottom: 2px solid #ccc;
+            height: 80px;
+            margin-top: 50px;
+            
+        }
+        ul{
+            padding: 0;
+            margin-top: 0;
+        }
+        li{
+            margin: 0;
+            list-style: none;
+            height: 20px;
+            padding: 15px ;
+            border-bottom: 1px solid #ccc;
+            font-size: 24px;
+            line-height: 24px;
+            color: gray;
+            
+        }
+        .del{
+            float: right;
+            display: none;
+            color: #ccc;
+        }
+        li:hover .del{
+            display: block;
+        }
+        li:hover{
+            cursor: pointer;
+        }
+        .footer{
+            color: gray;
+            padding-bottom: 5px;
+            /* height: 20px; */
+            line-height: 20px;
+            margin-top: -10px;
+            font-size: 10px;
+        }
+        .footer .lt{
+            float: left;
+            margin-left: 20px;
+        }
+        .footer .gt{
+            float: right;
+            margin-right: 20px;
+        }
+        .footer:hover span{
+            cursor: pointer;
+        }
+        input{
+            width: 584px;
+            margin: 0;
+            padding: 0;
+            padding-left: 15px;
+            border: 0;
+            margin-left: 0;
+            height: 36px;
+            margin: 0;
+            list-style: none;
+            /* height: 20px; */
+            /* padding: 15px ; */
+            border-bottom: 1px solid #ccc;
+            font-size: 24px;
+            line-height: 24px;
+            color: gray; 
+            outline: none;  /*去掉input搜索框获得焦点时的边框*/
+        }
+        
+        section{
+            margin-top: 0;
+        }
+        .tongji{
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2>便签本</h2>
+        <section class="todoapp">
+            <input type="text" v-model="inputValue" @keyup.enter="add">
+            <ul class="list">
+                <li class="todo" v-for="(item,index) in list">
+                    <div>
+                        <span class="index">{{index+1}}.</span>
+                        <span>{{item}}</span>
+                        <span class="del" @click="remove(index)">×</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <footer class="footer clearfix">
+            <span class="lt" v-show="list.length!=0"><strong class="tongji">{{list.length}}</strong> 条便签</span>
+            <span class="gt" @click="clear" v-show="list.length!=0">清空</span>
+        </footer>
+    </div>
+
+    <script src="vue.js"></script>
+    <script>
+        var app =new Vue({
+            el:"#app",
+            data:{
+                list:["写代码","找工作","好好学习"],
+                inputValue:"好好学习，天天向上"
+            },
+            methods:{
+                add:function(){
+                    this.list.push(this.inputValue);
+                },
+                remove:function(index){
+                    this.list.splice(index,1);
+                    // splice根据索引删除数据
+                },
+                clear:function(){
+                    this.list=[];
+                }
+            }
+        })
+    </script>
+</body>
+</html>
